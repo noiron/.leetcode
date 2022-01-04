@@ -12,17 +12,16 @@
 var removeDuplicates = function (nums) {
   const len = nums.length;
 
-  if (len === 0) return 0;
-  if (len === 1) return 1;
-  let fast = 1;
   let slow = 0;
+  let fast = 1;
+
   while (fast <= len) {
     if (nums[fast] !== nums[fast - 1]) {
-      slow++;
-      nums[slow] = nums[fast];
+      nums[++slow] = nums[fast];
     }
     fast++;
   }
+
   return slow;
 };
 // @lc code=end
