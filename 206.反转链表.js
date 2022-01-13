@@ -17,9 +17,10 @@
  * @return {ListNode}
  */
 var reverseList = function(head) {
-  if (head === null || head.next === null) return head;
+  if (!head || !head.next) return head;
 
   const newHead = reverseList(head.next);
+  // 原先由 head 指向 head.next，现在由 head.next 指向 head
   head.next.next = head;
   head.next = null;
   return newHead;
