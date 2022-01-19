@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=116 lang=javascript
+ * @lc app=leetcode.cn id=117 lang=javascript
  *
- * [116] 填充每个节点的下一个右侧节点指针
+ * [117] 填充每个节点的下一个右侧节点指针 II
  */
 
 // @lc code=start
