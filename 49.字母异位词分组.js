@@ -9,26 +9,23 @@
  * @param {string[]} strs
  * @return {string[][]}
  */
-var groupAnagrams = function(strs) {
-  const hashTable = {};
+var groupAnagrams = function (strs) {
+  const map = {};
 
-  for (let i = 0; i < strs.length; i++) {
-    const str = strs[i];
-    const sorted = [...str].sort().join();
-    if (!hashTable[sorted]) {
-      hashTable[sorted] = [str];
+  for (const str of strs) {
+    const count = new Array(26).fill(0);
+    for (const char of str) {
+      count[char.charCodeAt() - 'a'.charCodeAt()]++;
+    }
+    // 注意这里使用的是对象，而非真正的 Map，所以 key 会转换成 string 来判断唯一性
+    // 所以数组 count 内的值一样时，能取到 map 内相同的值
+    if (!map[count]) {
+      map[count] = [str];
     } else {
-      hashTable[sorted].push(str);
+      map[count].push(str);
     }
   }
 
-  const result = [];
-  const keys = Object.keys(hashTable);
-  for (let i = 0; i < keys.length; i++) {
-    result.push(hashTable[keys[i]]);
-  }
-
-  return result;
+  return Object.values(map);
 };
 // @lc code=end
-
