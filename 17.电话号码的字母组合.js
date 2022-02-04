@@ -10,7 +10,7 @@
  * @return {string[]}
  */
 var letterCombinations = function (digits) {
-  const lettesMap = {
+  const lettersMap = {
     2: 'abc',
     3: 'def',
     4: 'ghi',
@@ -24,20 +24,20 @@ var letterCombinations = function (digits) {
   const result = [];
 
   function backtrack(combinations, digits) {
-    if (digits.length === 0) {
+    if (!digits) {
       if (combinations) {
         result.push(combinations);
       }
       return;
     }
-    const letters = lettesMap[digits[0]];
-    for (let i = 0; i < letters.length; i++) {
-      backtrack(combinations + letters[i], digits.slice(1));
+
+    const letters = lettersMap[digits[0]];
+    for (const letter of letters) {
+      backtrack(combinations + letter, digits.slice(1));
     }
   }
 
   backtrack('', digits);
-
   return result;
 };
 // @lc code=end
