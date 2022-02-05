@@ -10,20 +10,21 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var sortColors = function (nums) {
-  let ptr = 0;
+  let pointer = 0;
 
-  // 将0移动至开头
+  // 将所有的0移至开头，遍历结束后，从 0 ~ pointer-1 中的元素是0
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] === 0) {
-      [nums[i], nums[ptr]] = [nums[ptr], nums[i]];
-      ptr++;
+      [nums[i], nums[pointer]] = [nums[pointer], nums[i]];
+      pointer++;
     }
   }
 
-  for (let i = ptr; i < nums.length; i++) {
+  // 将所有的1移至0的后面，这次遍历结束后，pointer指向最后一个1的下一位
+  for (let i = pointer; i < nums.length; i++) {
     if (nums[i] === 1) {
-      [nums[i], nums[ptr]] = [nums[ptr], nums[i]];
-      ptr++;
+      [nums[i], nums[pointer]] = [nums[pointer], nums[i]];
+      pointer++;
     }
   }
 };
