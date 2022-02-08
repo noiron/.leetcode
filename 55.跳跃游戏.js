@@ -16,16 +16,11 @@ var canJump = function (nums) {
   let max = 0;
 
   for (let i = 0; i < len; i++) {
-    const currentDistance = nums[i];
-
     // i > max 表示当前的位置i是不可达到的
     if (i > max) return false;
-    
-    if (currentDistance === 0) continue;
-    for (let j = 1; j <= currentDistance; j++) {
-      max = Math.max(max, i + j);
-      if (max >= len - 1) return true;
-    }
+    // 检查是否能达到更远的位置
+    max = Math.max(max, i + nums[i]);
+    if (max >= len - 1) return true;
   }
   return false;
 };
