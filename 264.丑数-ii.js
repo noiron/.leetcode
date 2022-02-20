@@ -68,9 +68,13 @@ class MinHeap {
 
   /** 删除最小值并返回 */
   pop() {
+    if (this.heap.length === 1) {
+      return this.heap.pop();
+    }
+    const num = this.heap[0];
     this.heap[0] = this.heap.pop();
     this.shiftDown(0);
-    return this.heap[0];
+    return num;
   }
 
   shiftDown(index) {
