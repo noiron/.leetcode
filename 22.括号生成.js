@@ -13,21 +13,21 @@ var generateParenthesis = function (n) {
   const result = [];
   const current = [];
 
-  function generate(open, close) {
-    if (current.length === 2 * n) {
+  function generate(openCount, closeCount) {
+    if (current.length === n * 2) {
       result.push(current.join(''));
       return;
     }
 
-    if (open < n) {
+    if (openCount < n) {
       current.push('(');
-      generate(open + 1, close);
+      generate(openCount + 1, closeCount);
       current.pop();
     }
 
-    if (close < open) {
+    if (closeCount < openCount) {
       current.push(')');
-      generate(open, close + 1);
+      generate(openCount, closeCount + 1);
       current.pop();
     }
   }
