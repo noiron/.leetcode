@@ -11,48 +11,51 @@
  * @return {boolean}
  */
 var exist = function (board, word) {
+  const DIRECTIONS = [
+    [0, 1],
+    [0, -1],
+    [1, 0],
+    [-1, 0],
+  ];
   const rows = board.length;
   const cols = board[0].length;
-
-  const isVisited = (pos, visisted) => {
-    return visisted.some((_pos) => _pos[0] === pos[0] && _pos[1] === pos[1]);
-  };
-
-  const isPosValid = (pos) => {
-    const [row, col] = pos;
-    return row >= 0 && col >= 0 && row < rows && col < cols;
-  };
-
-  const check = (str, pos, visisted) => {
-    const [row, col] = pos;
-    const character = board[row][col];
-    if (str[0] !== character) return false;
-    if (str.length === 1) return true;
-
-    // 分别检查上右下左四个方向
-    const fourDirections = [
-      [row - 1, col],
-      [row, col + 1],
-      [row + 1, col],
-      [row, col - 1],
-    ].map((pos) => {
-      if (!isPosValid(pos)) return false;
-      if (isVisited(pos, visisted)) return false;
-      return check(str.slice(1), pos, [...visisted, pos]);
-    });
-
-    return fourDirections.includes(true);
-  };
+  const len = word.length;
+  const visited = new Array(rows)
+    .fill(0)
+    .map((_) => new Array(cols).fill(false));
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
-      const pos = [i, j];
-      if (check(word, pos, [pos])) {
+      if (dfs(i, j, 0)) {
         return true;
       }
     }
   }
   return false;
+
+  function dfs(x, y, begin) {
+    if (begin === len - 1) {
+      return board[x][y] === word[begin];
+    }
+    if (board[x][y] === word[begin]) {
+      visited[x][y] = true;
+      for (const direction of DIRECTIONS) {
+        const newX = x + direction[0];
+        const newY = y + direction[1];
+        if (inArea(newX, newY) && !visited[newX][newY]) {
+          if (dfs(newX, newY, begin + 1)) {
+            return true;
+          }
+        }
+      }
+      visited[x][y] = false;
+    }
+    return false;
+  }
+
+  function inArea(x, y) {
+    return x >= 0 && x < rows && y >= 0 && y < cols;
+  }
 };
 // @lc code=end
 
@@ -78,4 +81,12 @@ console.log(
   ) === false
 );
 
-console.log(exist([['a', 'a']], 'aaa') === false);
+console.log(
+  exist(
+    [
+      ['a', 'a'],
+      ['c', 'b'],
+    ],
+    'ab'
+  ) === true
+);
