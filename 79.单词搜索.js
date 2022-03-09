@@ -22,34 +22,31 @@ var exist = function (board, word) {
   const len = word.length;
   const visited = new Array(rows)
     .fill(0)
-    .map((_) => new Array(cols).fill(false));
+    .map(() => new Array(cols).fill(false));
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
-      if (dfs(i, j, 0)) {
-        return true;
-      }
+      if (dfs(i, j, 0)) return true;
     }
   }
   return false;
 
   function dfs(x, y, begin) {
-    if (begin === len - 1) {
-      return board[x][y] === word[begin];
-    }
-    if (board[x][y] === word[begin]) {
-      visited[x][y] = true;
-      for (const direction of DIRECTIONS) {
-        const newX = x + direction[0];
-        const newY = y + direction[1];
-        if (inArea(newX, newY) && !visited[newX][newY]) {
-          if (dfs(newX, newY, begin + 1)) {
-            return true;
-          }
-        }
+    if (board[x][y] !== word[begin]) return false;
+    if (begin === len - 1) return true;
+
+    visited[x][y] = true;
+
+    for (const direction of DIRECTIONS) {
+      const newX = x + direction[0];
+      const newY = y + direction[1];
+
+      if (inArea(newX, newY) && !visited[newX][newY]) {
+        if (dfs(newX, newY, begin + 1)) return true;
       }
-      visited[x][y] = false;
     }
+
+    visited[x][y] = false;
     return false;
   }
 
