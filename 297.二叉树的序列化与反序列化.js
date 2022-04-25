@@ -25,7 +25,7 @@ var serialize = function (root) {
   }
   const left = serialize(root.left);
   const right = serialize(root.right);
-  return `${root.val},${left},${right}`;
+  return root.val + ',' + left + ',' + right;
 };
 
 /**
@@ -36,19 +36,19 @@ var serialize = function (root) {
  */
 var deserialize = function (data) {
   const list = data.split(',');
-
-  const buildTree = (list) => {
-    const rootVal = list.shift();
-    if (rootVal === 'null') {
-      return null;
-    }
-    const root = new TreeNode(rootVal);
-    root.left = buildTree(list);
-    root.right = buildTree(list);
-    return root;
+  let index = 0;
+  
+  // 返回有两种情况：一种是 null，另一种是左右节点（可能是null）都返回了
+  function buildTree() {
+    const val = list[index++];
+    if (val === 'null') return null;
+    const node = new TreeNode(val);
+    node.left = buildTree();
+    node.right = buildTree();
+    return node;
   }
 
-  return buildTree(list);
+  return buildTree();
 };
 
 /**
