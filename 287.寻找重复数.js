@@ -10,26 +10,21 @@
  * @return {number}
  */
 var findDuplicate = function (nums) {
-  const len = nums.length;
-  let left = 0;
-  let right = len;
-  while (left < right) {
-    let count = 0;
-    let mid = Math.floor((left + right) / 2);
+  let slow = 0;
+  let fast = 0;
 
-    for (let i = 0; i < len; i++) {
-      if (nums[i] <= mid) {
-        count++;
+  while (true) {
+    slow = nums[slow];
+    fast = nums[nums[fast]];
+
+    if (slow === fast) {
+      let ptr = 0;
+      while (slow !== ptr) {
+        slow = nums[slow];
+        ptr = nums[ptr];
       }
-    }
-
-    if (count > mid) {
-      right = mid;
-    } else {
-      left = mid + 1;
+      return slow;
     }
   }
-
-  return left;
 };
 // @lc code=end
