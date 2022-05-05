@@ -12,24 +12,22 @@
  */
 var minWindow = function (s, t) {
   const map = new Map();
-  for (let i = 0; i < t.length; i++) {
-    map.set(t[i], (map.get(t[i]) || 0) + 1);
+  for (const char of t) {
+    map.set(char, (map.get(char) || 0) + 1);
   }
   let left = 0;
   let right = 0;
   let minLen = Infinity;
-  let ans = '';
+  let result = '';
 
   while (left <= right && right < s.length) {
     if (map.has(s[right])) {
       map.set(s[right], map.get(s[right]) - 1);
     }
-    let result = true;
-    for (const value of map.values()) {
-      if (value > 0) result = false;
-    }
+
+    const fulfilled = [...map.values()].every((v) => v <= 0);
     // 没有成功覆盖，则右指针继续右移
-    if (!result) {
+    if (!fulfilled) {
       right++;
       continue;
     }
@@ -39,7 +37,7 @@ var minWindow = function (s, t) {
     // 左指针指向的字符次数超过了需要，或者没有使用到这个字符
     while (leftCount < 0 || leftCount === undefined) {
       if (leftCount < 0) {
-        map.set(s[left], map.get(s[left]) + 1);
+        map.set(s[left], leftCount + 1);
       }
       left++;
       leftCount = map.get(s[left]);
@@ -47,13 +45,12 @@ var minWindow = function (s, t) {
     const currentLen = right - left + 1;
     if (minLen > currentLen) {
       minLen = currentLen;
-      ans = s.slice(left, right + 1);
+      result = s.slice(left, right + 1);
     }
-
     right++;
   }
 
-  return ans;
+  return result;
 };
 // @lc code=end
 
